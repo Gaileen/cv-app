@@ -1,19 +1,7 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import Button from "./Button";
-import handleSubmit from "./HandleSubmit";
 
-export default function Experience() {
-    const [expInfo, setExpInfo] = useState([
-        {
-            company: "",
-            position: "",
-            startDate: "",
-            endDate: "",
-            responsibilities: "",
-            entryId: crypto.randomUUID(),
-        },
-    ]);
-
+export default function Experience({ expInfo, setExpInfo }) {
     function addExpEntry() {
         setExpInfo((expInfo) => [
             ...expInfo,
@@ -34,6 +22,16 @@ export default function Experience() {
         });
     }
 
+    function updateExpEntry(id, key, newVal) {
+        const newExpInfo = expInfo.map((entry) => {
+            if (entry.entryId === id) {
+                return { ...entry, [key]: newVal}
+            }
+            return entry;
+        });
+        setExpInfo(newExpInfo);
+    }
+
     return (
         <div className="cardForm">
             <h2>Experience</h2>
@@ -43,21 +41,43 @@ export default function Experience() {
                 // key to help React keep track of changes.
                 <form key={entry.entryId}>
                     <label>Company: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.company}
+                        onChange={(e) => updateExpEntry(entry.entryId, 
+                            "company", e.target.value)}/>
 
                     <label>Position: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.position}
+                        onChange={(e) => updateExpEntry(entry.entryId, 
+                            "position", e.target.value)}/>
 
                     <label>Start Date: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.startDate}
+                        onChange={(e) => updateExpEntry(entry.entryId, 
+                            "startDate", e.target.value)}/>
 
                     <label>End Date: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.endDate}
+                        onChange={(e) => updateExpEntry(entry.entryId, 
+                            "endDate", e.target.value)}/>
 
                     <label>Responsibilities: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.responsibilities}
+                        onChange={(e) => updateExpEntry(entry.entryId, 
+                            "responsibilities", e.target.value)}/>
 
-                    <Button name="Submit" handleOnClick={handleSubmit}/>
+                    {/* Update Info alr handled. 
+                        This'll be a live editor for now. */}
+                    {/* <Button name="Submit" handleOnClick={handleSubmit}/> */}
 
                     {expInfo.length > 1 && 
                         <Button name="Delete" handleOnClick={() => deleteExpEntry(entry.entryId)} />}
@@ -68,3 +88,8 @@ export default function Experience() {
         </div>
     );
 }
+
+Experience.propTypes = {
+    expInfo: PropTypes.array.isRequired,
+    setExpInfo: PropTypes.func.isRequired,
+};

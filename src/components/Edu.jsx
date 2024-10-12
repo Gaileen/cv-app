@@ -1,17 +1,7 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import Button from "./Button";
-import handleSubmit from "./HandleSubmit";
 
-export default function Edu() {
-    const [eduInfo, setEduInfo] = useState([
-        {
-            school: "",
-            study: "",
-            date: "",
-            entryId: crypto.randomUUID(),
-        },
-    ]);
-
+export default function Edu({ eduInfo, setEduInfo }) {
     function addEduEntry() {
         setEduInfo((eduInfo) => [
             ...eduInfo,
@@ -24,6 +14,22 @@ export default function Edu() {
         ]);
     }
 
+    function deleteEduEntry(id) {
+        setEduInfo((eduInfo) => {
+            return eduInfo.filter((entry) => entry.entryId !== id);
+        });
+    }
+
+    function updateEduEntry(id, key, newVal) {
+        const newEduInfo = eduInfo.map((entry) => {
+            if (entry.entryId === id) {
+                return { ...entry, [key]: newVal}
+            }
+            return entry;
+        });
+        setEduInfo(newEduInfo);
+    }
+
     return (
         <div className="cardForm">
             <h2>Education</h2>
@@ -31,19 +37,39 @@ export default function Edu() {
             {eduInfo.map(entry => (
                 <form key={entry.entryId}>
                     <label>School: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.school}
+                        onChange={(e) => updateEduEntry(entry.entryId, 
+                            "school", e.target.value)}/>
 
                     <label>Study: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.study}
+                        onChange={(e) => updateEduEntry(entry.entryId, 
+                            "study", e.target.value)}/>
 
                     <label>Date: </label>
-                    <input />
+                    <input 
+                        type="text"
+                        value={entry.date}
+                        onChange={(e) => updateEduEntry(entry.entryId, 
+                            "date", e.target.value)}/>
 
-                    <Button name="Submit" handleOnClick={handleSubmit}/>
+                    {/* <Button name="Submit" handleOnClick={handleSubmit}/> */}
+
+                    {eduInfo.length > 1 && 
+                        <Button name="Delete" handleOnClick={() => deleteEduEntry(entry.entryId)} />}
                 </form>
             ))}
 
-            <Button name="Add Experience" handleOnClick={addEduEntry} />
+            <Button name="Add Education" handleOnClick={addEduEntry} />
         </div>
     );
 }
+
+Edu.propTypes = {
+    eduInfo: PropTypes.array.isRequired,
+    setEduInfo: PropTypes.func.isRequired,  
+};
