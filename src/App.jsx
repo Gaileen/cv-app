@@ -2,6 +2,7 @@ import { useState } from 'react';
 import GeneralInfo from './components/GeneralInfo'
 import Edu from './components/Edu';
 import Experience from './components/Experience';
+import DisplayCV from './components/DisplayCV';
 import './styles/App.css'
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
       <Experience expInfo={expInfo} setExpInfo={setExpInfo} />
     </div>
     <div className="Resume">
-      {/* display usr input */}
+      <DisplayCV genInfo={genInfo} eduInfo={eduInfo} expInfo={expInfo} />
     </div>
   </>
   );

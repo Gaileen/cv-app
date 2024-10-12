@@ -1,8 +1,10 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the CV Application project from The Odin Project's React course.
 
-Currently, two official plugins are available:
+Due to tiem constraints, main functionality (using state to maintain user input across components) has been prioritized.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Things that need to be worked on in the future:
+- Page Styling,
+- Display the rest of the user's input in the Resume display,
+- and Print PDF button.
