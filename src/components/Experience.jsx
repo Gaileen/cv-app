@@ -1,21 +1,70 @@
-import CardForm from "./CardForm";
+import { useState } from "react";
+import Button from "./Button";
+import handleSubmit from "./HandleSubmit";
 
 export default function Experience() {
-    const sections = [
-        { section: "Company Name", id: crypto.randomUUID() },
-        { section: "Position", id: crypto.randomUUID() },
-        { section: "Start Date", id: crypto.randomUUID() },
-        { section: "End Date", id: crypto.randomUUID() },
-        { section: "Responsibilities", id: crypto.randomUUID() }
-    ];
-    // ^add inputType: "" ?
+    const [expInfo, setExpInfo] = useState([
+        {
+            company: "",
+            position: "",
+            startDate: "",
+            endDate: "",
+            responsibilities: "",
+            entryId: crypto.randomUUID(),
+        },
+    ]);
+
+    function addExpEntry() {
+        setExpInfo((expInfo) => [
+            ...expInfo,
+            {
+                company: "",
+                position: "",
+                startDate: "",
+                endDate: "",
+                responsibilities: "",
+                entryId: crypto.randomUUID(),
+            },
+        ]);
+    }
+
+    function deleteExpEntry(id) {
+        setExpInfo((expInfo) => {
+            return expInfo.filter((entry) => entry.entryId !== id);
+        });
+    }
 
     return (
-        <>
-            <CardForm title="Experience" inputs={sections}/>
+        <div className="cardForm">
+            <h2>Experience</h2>
+            
+            {/* The "()" following "=>" implies "return" keyword. */}
+            {expInfo.map(entry => (
+                // key to help React keep track of changes.
+                <form key={entry.entryId}>
+                    <label>Company: </label>
+                    <input />
 
-            {/* CHANGE THIS FRI so usr can add +Edu */}
-            <button>Add Experience</button>
-        </>
+                    <label>Position: </label>
+                    <input />
+
+                    <label>Start Date: </label>
+                    <input />
+
+                    <label>End Date: </label>
+                    <input />
+
+                    <label>Responsibilities: </label>
+                    <input />
+
+                    <Button name="Submit" handleOnClick={handleSubmit}/>
+
+                    {expInfo.length > 1 && 
+                        <Button name="Delete" handleOnClick={() => deleteExpEntry(entry.entryId)} />}
+                </form>
+            ))}
+            
+            <Button name="Add Experience" handleOnClick={addExpEntry} />
+        </div>
     );
 }
